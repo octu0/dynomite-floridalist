@@ -15,7 +15,7 @@ import(
 
   "github.com/comail/colog"
   "gopkg.in/urfave/cli.v1"
-	"gopkg.in/yaml.v2"
+  "gopkg.in/yaml.v2"
 
   "github.com/octu0/dynomite-floridalist"
 )

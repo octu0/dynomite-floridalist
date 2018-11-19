@@ -8,7 +8,7 @@ import(
   "encoding/json"
   "strings"
 
-	"github.com/hashicorp/memberlist"
+  "github.com/hashicorp/memberlist"
 )
 
 type DefDelegate struct {
