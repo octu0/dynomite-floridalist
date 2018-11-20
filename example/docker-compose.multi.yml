@@ -1,0 +1,119 @@
+version: '2'
+
+networks:
+  public:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.16.0/24
+        gateway: 192.168.16.1
+
+services:
+
+  #
+  # dynomite
+  #
+  dyn_1a_001:
+    build: "app/dynomite"
+    ports:
+      - "8101:8101"
+      - "9101:9101"
+      - "2101:2101"
+      - "3101:3101"
+      - "7101:8080"
+    depends_on:
+      - "redis-server_1a_001"
+    networks:
+      - public
+    volumes:
+      - "./multi/1a_001:/opt/dynomite/etc"
+    environment:
+      DYN_FLORIDALIST_JOIN_ADDR: "dyn_1a_001:3101"
+      DYN_FLORIDALIST_NODE_NAME: "dyn_1a_001"
+      #DYN_FLORIDALIST_BIND_IP:   "dyn_1a_001"
+
+  dyn_1a_101:
+    build: "app/dynomite"
+    ports:
+      - "8102:8101"
+      - "9102:9101"
+      - "2102:2101"
+      - "3102:3101"
+      - "7102:8080"
+    depends_on:
+      - "redis-server_1a_101"
+    networks:
+      - public
+    volumes:
+      - "./multi/1a_101:/opt/dynomite/etc"
+    environment:
+      DYN_FLORIDALIST_JOIN_ADDR: "dyn_1a_001:3101"
+      DYN_FLORIDALIST_NODE_NAME: "dyn_1a_101"
+      #DYN_FLORIDALIST_BIND_IP:   "dyn_1a_101"
+
+  dyn_1b_001:
+    build: "app/dynomite"
+    ports:
+      - "8201:8101"
+      - "9201:9101"
+      - "2201:2101"
+      - "3201:3101"
+      - "7201:8080"
+    depends_on:
+      - "redis-server_1b_001"
+    networks:
+      - public
+    volumes:
+      - "./multi/1b_001:/opt/dynomite/etc"
+    environment:
+      DYN_FLORIDALIST_JOIN_ADDR: "dyn_1a_001:3101"
+      DYN_FLORIDALIST_NODE_NAME: "dyn_1b_001"
+      #DYN_FLORIDALIST_BIND_IP:   "dyn_1b_001"
+
+  dyn_1b_101:
+    build: "app/dynomite"
+    ports:
+      - "8202:8101"
+      - "9202:9101"
+      - "2202:2101"
+      - "3202:3101"
+      - "7202:8080"
+    depends_on:
+      - "redis-server_1b_101"
+    networks:
+      - public
+    volumes:
+      - "./multi/1b_101:/opt/dynomite/etc"
+    environment:
+      DYN_FLORIDALIST_JOIN_ADDR: "dyn_1a_001:3101"
+      DYN_FLORIDALIST_NODE_NAME: "dyn_1b_101"
+      #DYN_FLORIDALIST_BIND_IP:   "dyn_1b_101"
+
+  #
+  # redis
+  #
+  redis-server_1a_001:
+    image: "redis:5.0"
+    ports:
+      - "6101:6379"
+    networks:
+      - public
+  redis-server_1a_101:
+    image: "redis:5.0"
+    ports:
+      - "6102:6379"
+    networks:
+      - public
+  redis-server_1b_001:
+    image: "redis:5.0"
+    ports:
+      - "6201:6379"
+    networks:
+      - public
+  redis-server_1b_101:
+    image: "redis:5.0"
+    ports:
+      - "6202:6379"
+    networks:
+      - public
