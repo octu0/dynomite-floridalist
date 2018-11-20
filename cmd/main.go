@@ -98,6 +98,23 @@ func action(c *cli.Context) error {
   if err != nil {
     return err
   }
+  if adv.Datacenter == "" || adv.Rack == "" || adv.Token == "" || adv.Address == "" {
+    msg := fmt.Sprintf(
+      `
+      error: seed Advertise includes empty value.
+      Datacenter: '%s'
+      Rack: '%s'
+      Token: '%s'
+      Address: '%s'
+      `,
+      adv.Datacenter,
+      adv.Rack,
+      adv.Token,
+      adv.Address,
+    )
+    log.Printf("error: %s", msg)
+    return fmt.Errorf(msg)
+  }
 
   config := floridalist.Config{
     DebugMode:              c.Bool("debug"),
@@ -215,6 +232,7 @@ func main(){
       Name: "join, j",
       Usage: "join memberlist cluster address",
       Value: floridalist.DEFAULT_MEMBERLIST_JOIN_ADDR,
+      EnvVar: "DYN_FLORIDALIST_JOIN_ADDR",
     },
     cli.StringFlag{
       Name: "ml-ip",
