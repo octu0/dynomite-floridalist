@@ -57,7 +57,10 @@ func (d *DefDelegate) MergeRemoteState(buf []byte, join bool) {
 func NewMemberlistConfig(ctx context.Context) *memberlist.Config {
   config := ctx.Value("config").(Config)
   logger := ctx.Value("logger.member").(*MemberLogger)
-  name   := fmt.Sprintf("%s:%d", config.MemberlistBindIp, config.MemberlistBindPort)
+  name   := config.MemberlistNodeName
+  if name == "" {
+    name = fmt.Sprintf("%s:%d", config.MemberlistBindIp, config.MemberlistBindPort)
+  }
 
   c                  := memberlist.DefaultLANConfig()
   c.Name              = name

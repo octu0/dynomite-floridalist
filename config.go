@@ -5,10 +5,11 @@ import(
 )
 
 type Config struct {
-  DebugMode    bool
-  VerboseMode  bool
-  Procs        int
+  DebugMode              bool
+  VerboseMode            bool
+  Procs                  int
 
+  MemberlistNodeName     string
   MemberlistJoinAddress  string
   MemberlistBindIp       string
   MemberlistBindPort     int

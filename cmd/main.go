@@ -121,6 +121,7 @@ func action(c *cli.Context) error {
     VerboseMode:            c.Bool("verbose"),
     Procs:                  c.Int("procs"),
     MemberlistJoinAddress:  c.String("join"),
+    MemberlistNodeName:     c.String("ml-name"),
     MemberlistBindIp:       c.String("ml-ip"),
     MemberlistBindPort:     c.Int("ml-port"),
     FloridaBindIP:          c.String("http-ip"),
@@ -235,14 +236,21 @@ func main(){
       EnvVar: "DYN_FLORIDALIST_JOIN_ADDR",
     },
     cli.StringFlag{
+      Name: "ml-name",
+      Usage: "memberlist name(defaults: `ml-ip`:`ml-port`)",
+      EnvVar: "DYN_FLORIDALIST_NODE_NAME",
+    },
+    cli.StringFlag{
       Name: "ml-ip",
       Usage: "memberlist bind-ip",
       Value: floridalist.DEFAULT_MEMBERLIST_BIND_IP,
+      EnvVar: "DYN_FLORIDALIST_BIND_IP",
     },
     cli.IntFlag{
       Name: "ml-port",
       Usage: "memberlist bind-port",
       Value: floridalist.DEFAULT_MEMBERLIST_BIND_PORT,
+      EnvVar: "DYN_FLORIDALIST_BIND_PORT",
     },
     cli.StringFlag{
       Name: "conf, c",
