@@ -55,9 +55,10 @@ COMMANDS:
      help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --join value, -j value       join memberlist cluster address (default: "127.0.0.1:3001")
-   --ml-ip value                memberlist bind-ip (default: "0.0.0.0")
-   --ml-port value              memberlist bind-port (default: 3001)
+   --join value, -j value       join memberlist cluster address (default: "127.0.0.1:3101") [$DYN_FLORIDALIST_JOIN_ADDR]
+   --ml-name ml-ip              memberlist name(defaults: ml-ip:`ml-port`) [$DYN_FLORIDALIST_NODE_NAME]
+   --ml-ip value                memberlist bind-ip (default: "0.0.0.0") [$DYN_FLORIDALIST_BIND_IP]
+   --ml-port value              memberlist bind-port (default: 3101) [$DYN_FLORIDALIST_BIND_PORT]
    --conf value, -c value       path to dynomite.yml
    --address value              Dynomite node listen address
    --datacenter value           Dynomite node datacenter name
