@@ -6,8 +6,9 @@ dynomite-floridalist works as Dynomite `seed_provider` using same communicate as
 
 features below:
 
-- Simple configuration management. `dynomite-florialist` can using dynomite.yml
+- Simple configuration management. `dynomite-florialist` can using `dynomite.yml`
 - Container friendly. `dynomite-floridalist` can be applied to both sidecar patterns and centralized pattern
+- `dynomite.yml` generator
 - Clustering and node management with [memberlist](https://github.com/hashicorp/memberlist)
 
 ## Build
@@ -49,7 +50,7 @@ USAGE:
    dynomite-floridalist [global options] command [command options] [arguments...]
 
 VERSION:
-   1.0.0
+   1.1.0
 
 COMMANDS:
      help, h  Shows a list of commands or help for one command
@@ -59,11 +60,11 @@ GLOBAL OPTIONS:
    --ml-name ml-ip              memberlist name(defaults: ml-ip:`ml-port`) [$DYN_FLORIDALIST_NODE_NAME]
    --ml-ip value                memberlist bind-ip (default: "0.0.0.0") [$DYN_FLORIDALIST_BIND_IP]
    --ml-port value              memberlist bind-port (default: 3101) [$DYN_FLORIDALIST_BIND_PORT]
-   --conf value, -c value       path to dynomite.yml
-   --address value              Dynomite node listen address
-   --datacenter value           Dynomite node datacenter name
-   --rack value                 Dynomite node rack name
-   --token value                Dynomite node owned token
+   --conf value, -c value       path to dynomite.yml [$DYNOMITE_YAML_PATH]
+   --address value              Dynomite node listen address [$DYN_ADDRESS]
+   --datacenter value           Dynomite node datacenter name [$DYN_DC]
+   --rack value                 Dynomite node rack name [$DYN_RACK]
+   --token value                Dynomite node owned token [$DYN_TOKEN]
    --http-ip value, -i value    florida API http ip (default: "0.0.0.0") [$DYNOMITE_FLORIDA_IP]
    --http-port value, -p value  florida API http port (default: 8080) [$DYNOMITE_FLORIDA_PORT]
    --request value, -r value    florida API request endpoint (default: "/REST/v1/admin/get_seeds") [$DYNOMITE_FLORIDA_REQUEST]
@@ -75,4 +76,53 @@ GLOBAL OPTIONS:
    --verbose, -V                verbose. more message
    --help, -h                   show help
    --version, -v                print the version
+```
+
+## Generate dynomite.yml
+
+Using `generate` command, can make `dynomite.yml` automatically.
+
+```
+NAME:
+   dynomite-floridalist generate - generate `dynomite.yml`
+
+USAGE:
+   dynomite-floridalist generate [command options] [arguments...]
+
+OPTIONS:
+   --tmpl dynomite.yml.tmpl, -t dynomite.yml.tmpl  path to dynomite.yml.tmpl. if Empty using default value [$DYNOMITE_YAML_TMPL_PATH]
+   --output FILE, -o FILE                          write output to FILE. defaults output to stdout [$DYNOMITE_YAML_PATH]
+   --address value                                 Dynomite node listen address [$DYN_ADDRESS]
+   --datacenter value                              Dynomite node datacenter name [$DYN_DC]
+   --rack value                                    Dynomite node rack name [$DYN_RACK]
+   --token value                                   Dynomite node owned token [$DYN_TOKEN]
+   --backend-server servers                        servers format 'ip:port:weight' (default: "127.0.0.1:6379:100") [$DYN_BACKEND_SERVER]
+```
+
+Usage
+
+```
+$ dynomite-floridalist generate \
+	--address 10.16.0.123 \
+	--datacenter ap-northeast-1 \
+	--rack ap-northeast-1d
+	--token 0 \
+	--backend-server "127.0.0.1:6379:1" \
+	-o /etc/dynomite.yml
+$ dynomite-floridalist --address 10.16.0.123 -c /etc/dynomite.yml
+```
+
+Environment 
+
+```
+# defined by Dockerfile or docker-compose or any solution
+$ DYN_ADDRESS="10.16.0.123"
+$ DYN_DC="ap-northeast-1"
+$ DYN_RACK="ap-northeast-1d"
+$ DYN_TOKEN="0"
+$ DYN_BACKEND_SERVER="127.0.0.1:6379:100"
+# run. same source
+$ dynomite-floridalist generate -o /etc/dynomite.yml
+$ dynomite-floridalist -c /etc/dynomite.yml
+$ dynomite -c /etc/dynomite.yml
 ```
