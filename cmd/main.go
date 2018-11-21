@@ -20,6 +20,13 @@ import(
   "github.com/octu0/dynomite-floridalist"
 )
 
+var (
+  Commands = make([]cli.Command, 0)
+)
+func AddCommand(cmd cli.Command){
+  Commands = append(Commands, cmd)
+}
+
 func SeedAdvertise(c *cli.Context) (floridalist.SeedAdvertise, error) {
   adv      := floridalist.SeedAdvertise{}
   yamlPath := c.String("conf")
@@ -228,6 +235,7 @@ func main(){
   app.Email    = ""
   app.Usage    = ""
   app.Action   = action
+  app.Commands = Commands
   app.Flags    = []cli.Flag{
     cli.StringFlag{
       Name: "join, j",
@@ -255,22 +263,27 @@ func main(){
     cli.StringFlag{
       Name: "conf, c",
       Usage: "path to dynomite.yml",
+      EnvVar: "DYNOMITE_YAML_PATH",
     },
     cli.StringFlag{
       Name: "address",
       Usage: "Dynomite node listen address",
+      EnvVar: "DYN_ADDRESS",
     },
     cli.StringFlag{
       Name: "datacenter",
       Usage: "Dynomite node datacenter name",
+      EnvVar: "DYN_DC",
     },
     cli.StringFlag{
       Name: "rack",
       Usage: "Dynomite node rack name",
+      EnvVar: "DYN_RACK",
     },
     cli.StringFlag{
       Name: "token",
       Usage: "Dynomite node owned token",
+      EnvVar: "DYN_TOKEN",
     },
     cli.StringFlag{
       Name: "http-ip, i",
