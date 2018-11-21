@@ -124,6 +124,7 @@ func init(){
         Name: "backend-server",
         Usage: "`servers` format 'ip:port:weight'",
         Value: "127.0.0.1:6379:100",
+        EnvVar: "DYN_BACKEND_SERVER",
       },
     },
     Action: generate_dynomite_yml_action,
