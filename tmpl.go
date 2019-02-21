@@ -32,9 +32,9 @@ dyn_o_mite:
   # controls if server should be ejected temporarily when it fails consecutively 'server_failure_limit' times.
   auto_eject_hosts: true
   # number of consecutive failures on a server that would lead to it being temporarily ejected 
-  server_failure_limit: 10
+  server_failure_limit: 5
   # timeout value in msec to wait for before retrying on a temporarily ejected server
-  server_retry_timeout: 30000
+  server_retry_timeout: 15000
   # timeout value in msec that we wait for to establish a connection to the server or receive a response from a server.
   timeout: 5000
 `

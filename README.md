@@ -102,14 +102,17 @@ OPTIONS:
 Usage
 
 ```
+$ DYNOMITE_YAML="/etc/dynomite.yml"
+
 $ dynomite-floridalist generate \
 	--address 10.16.0.123 \
 	--datacenter ap-northeast-1 \
 	--rack ap-northeast-1d
 	--token 0 \
 	--backend-server "127.0.0.1:6379:1" \
-	-o /etc/dynomite.yml
-$ dynomite-floridalist --address 10.16.0.123 -c /etc/dynomite.yml
+	-o $DYNOMITE_YAML
+
+$ dynomite-floridalist --address 10.16.0.123 -c $DYNOMITE_YAML
 ```
 
 Environment 
@@ -121,6 +124,7 @@ $ DYN_DC="ap-northeast-1"
 $ DYN_RACK="ap-northeast-1d"
 $ DYN_TOKEN="0"
 $ DYN_BACKEND_SERVER="127.0.0.1:6379:100"
+
 # run. same source
 $ dynomite-floridalist generate -o /etc/dynomite.yml
 $ dynomite-floridalist -c /etc/dynomite.yml
