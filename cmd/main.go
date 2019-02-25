@@ -108,7 +108,7 @@ func action(c *cli.Context) error {
   if adv.Datacenter == "" || adv.Rack == "" || adv.Token == "" || adv.Address == "" {
     msg := fmt.Sprintf(
       `
-      error: seed Advertise includes empty value.
+      error: seed Advertise doesnt include empty value.
       Datacenter: '%s'
       Rack: '%s'
       Token: '%s'
@@ -119,7 +119,6 @@ func action(c *cli.Context) error {
       adv.Token,
       adv.Address,
     )
-    log.Printf("error: %s", msg)
     return fmt.Errorf(msg)
   }
 
