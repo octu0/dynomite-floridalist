@@ -182,6 +182,17 @@ func action(c *cli.Context) error {
     return nil
   }
 
+  dumpSeeds := func() {
+    values := m.SeedList()
+    buf := fmt.Sprintf(
+      "seeds:%s\nat:%s\n",
+      strings.Join(values, "|"),
+      time.Now().Format("2006-01-02 15:04:05"),
+    )
+    // dump out to stdout
+    os.Stdout.WriteString(buf)
+  }
+
   go func(){
     if err := http.Start(context.TODO()); err != nil {
       error_chan <- err
@@ -193,6 +204,7 @@ func action(c *cli.Context) error {
   signal.Notify(signal_chan, syscall.SIGHUP)
   signal.Notify(signal_chan, syscall.SIGQUIT)
   signal.Notify(signal_chan, syscall.SIGINT)
+  signal.Notify(signal_chan, syscall.SIGCONT)
   running := true
   var lastErr error
   for running {
@@ -205,6 +217,10 @@ func action(c *cli.Context) error {
       }
       running = false
     case sig := <-signal_chan:
+      if sig == syscall.SIGCONT {
+        dumpSeeds()
+        continue
+      }
       log.Printf("info: signal trap(%s)", sig.String())
       if err := stopService(); err != nil {
         lastErr = err
