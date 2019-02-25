@@ -62,7 +62,7 @@ func NewMemberlistConfig(ctx context.Context) *memberlist.Config {
     name = fmt.Sprintf("%s:%d", config.MemberlistBindIp, config.MemberlistBindPort)
   }
 
-  c                  := memberlist.DefaultLANConfig()
+  c                  := createMemberlistConfig(config)
   c.Name              = name
   c.BindAddr          = config.MemberlistBindIp
   c.BindPort          = config.MemberlistBindPort
@@ -71,6 +71,12 @@ func NewMemberlistConfig(ctx context.Context) *memberlist.Config {
   c.Logger            = logger.NewLogger()
 
   return c
+}
+func createMemberlistConfig(config Config) *memberlist.Config {
+  if config.UseWANConfig {
+    return memberlist.DefaultWANConfig()
+  }
+  return memberlist.DefaultLANConfig()
 }
 
 type Member struct {

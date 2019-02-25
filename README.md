@@ -2,13 +2,14 @@
 
 [Dynomite](https://github.com/Netflix/dynomite) seed management / seed_provider.
 
-dynomite-floridalist works as Dynomite `seed_provider` using same communicate as Florida.
+dynomite-floridalist works as Dynomite `seed_provider` using same communicate as Florida API.
 
 features below:
 
+- Automated seed_provider / less state dependence
 - Simple configuration management. `dynomite-florialist` can using `dynomite.yml`
-- Container friendly. `dynomite-floridalist` can be applied to both sidecar patterns and centralized pattern
-- `dynomite.yml` generator
+- Container friendly. `dynomite-floridalist` can be applied to both sidecar pattern and centralized pattern
+- Consistently generate `dynomite.yml` and using it
 - Clustering and node management with [memberlist](https://github.com/hashicorp/memberlist)
 
 ## Build
@@ -50,10 +51,11 @@ USAGE:
    dynomite-floridalist [global options] command [command options] [arguments...]
 
 VERSION:
-   1.1.0
+   1.1.3
 
 COMMANDS:
-     help, h  Shows a list of commands or help for one command
+     generate  generate `dynomite.yml`
+     help, h   Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --join value, -j value       join memberlist cluster address (default: "127.0.0.1:3101") [$DYN_FLORIDALIST_JOIN_ADDR]
@@ -71,6 +73,7 @@ GLOBAL OPTIONS:
    --http-read-timeout value    florida API read timeout (default: "500ms")
    --http-write-timeout value   florida API write timeout (default: "500ms")
    --ml-leave-timeout value     memberlist cluster leave timeout (default: "30s")
+   --wan                        use WANconfig (defaults LANConfig)
    --procs value, -P value      attach cpu(s) (default: 8)
    --debug, -d                  debug mode
    --verbose, -V                verbose. more message
@@ -124,9 +127,10 @@ $ DYN_DC="ap-northeast-1"
 $ DYN_RACK="ap-northeast-1d"
 $ DYN_TOKEN="0"
 $ DYN_BACKEND_SERVER="127.0.0.1:6379:100"
+$ DYNOMITE_YAML="/etc/dynomite.yml"
 
 # run. same source
-$ dynomite-floridalist generate -o /etc/dynomite.yml
-$ dynomite-floridalist -c /etc/dynomite.yml
-$ dynomite -c /etc/dynomite.yml
+$ dynomite-floridalist generate -o $DYNOMITE_YAML
+$ dynomite-floridalist -c $DYNOMITE_YAML
+$ dynomite -c $DYNOMITE_YAML
 ```
