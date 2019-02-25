@@ -137,6 +137,7 @@ func action(c *cli.Context) error {
     HttpReadTimeout:        httpReadTimeout,
     HttpWriteTimeout:       httpWriteTimeout,
     MemberlistLeaveTimeout: leaveTimeout,
+    UseWANConfig:           c.Bool("wan"),
   }
   if config.Procs < 1 {
     config.Procs = 1
@@ -317,6 +318,10 @@ func main(){
       Name: "ml-leave-timeout",
       Usage: "memberlist cluster leave timeout",
       Value: floridalist.DEFAULT_MEMBERLIST_LEAVE_TIMEOUT,
+    },
+    cli.BoolFlag{
+      Name: "wan",
+      Usage: "use WANconfig (defaults LANConfig)",
     },
     cli.IntFlag{
       Name: "procs, P",
