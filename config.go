@@ -20,6 +20,8 @@ type Config struct {
   HttpReadTimeout        time.Duration
   HttpWriteTimeout       time.Duration
   MemberlistLeaveTimeout time.Duration
+
+  UseWANConfig           bool
 }
 
 type SeedAdvertise struct {
